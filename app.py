@@ -124,15 +124,15 @@ with st.sidebar:
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
-def generate_nlg_response(prompt, data):
+def generate_nlg_response(prompt, forecast):
     """
     Generate text using OpenAI's GPT model for NLG.
     """
     try:
         # Prepare a summary of the data
-        data_summary = data.describe().to_string()
-        data_head = data.head().to_string()
-        data_tail = data.tail().to_string()
+        data_summary = forecast.describe().to_string()
+        data_head = forecast.head().to_string()
+        data_tail = forecast.tail().to_string()
         
         full_prompt = f"""Analyze the following dataset:
 
