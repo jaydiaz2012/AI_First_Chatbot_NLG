@@ -245,7 +245,7 @@ elif options == "SalesX AI":
         if sales_data:
             sales_list = [float(x) for x in sales_data.split(",")]
             data = pd.DataFrame({'Sales': sales_list})
-            sales_column = 'Sales'  # Set default sales column for manual entry
+            sales_column = 'Sales' 
 
     if 'data' in locals() and 'sales_column' in locals():
         if st.button("Forecast Sales"):
