@@ -130,20 +130,11 @@ def generate_nlg_response(prompt, forecast):
     """
     try:
         # Prepare a summary of the data
-        data_summary = forecast
-        data_head = forecast.head().to_string()
-        data_tail = forecast.tail().to_string()
-        
+        data_summary = forecast        
         full_prompt = f"""Analyze the following dataset:
 
 Summary Statistics:
 {data_summary}
-
-First few rows:
-{data_head}
-
-Last few rows:
-{data_tail}
 
 Now, based on this data, {prompt}
 
