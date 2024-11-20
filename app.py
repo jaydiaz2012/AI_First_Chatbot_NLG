@@ -268,7 +268,7 @@ if options == "Home":
 elif options == "About Me":
     st.title("About Me")
     My_image = Image.open("images/photo-me1.jpg")
-    my_resized_image = My_image.resize((400,320))
+    my_resized_image = My_image.resize((400,280))
     st.image(my_resized_image)
     st.write("I am Jeremie Diaz, an AI builder and programmer.")
     st.write("Don't hesitate to contact me on my LinkedIn and check out my other projects on GitHub!")
