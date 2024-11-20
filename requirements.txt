@@ -1,0 +1,12 @@
+openai==0.28
+streamlit
+streamlit_option_menu
+streamlit_extras
+faiss-cpu
+plotly
+openpyxl
+langchain
+langchain_community
+scipy
+scikit-learn
+newspaper3k==0.2.8
