@@ -138,7 +138,7 @@ def forecast_sales(data, sales_column):
         temperature= 0.1,
         messages=[
             {"role": "system", "content": System_Prompt},
-            {"role": "user", "content": full_prompt}
+            {"role": "user", "content": prompt}
         ]
     )
 
