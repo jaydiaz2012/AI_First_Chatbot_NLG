@@ -161,7 +161,7 @@ def forecast_sales(data, sales_column):
     return forecasted_data
 
 def generate_explanation(data, forecast):
-    historical_data_str = data.to_string(index=False)  fore
+    historical_data_str = data.to_string(index=False)
     forecast_str = ', '.join(map(str, forecast)) 
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
