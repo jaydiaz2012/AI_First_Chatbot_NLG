@@ -161,7 +161,7 @@ def forecast_sales(data, sales_column):
     return forecasted_data
 
 def generate_explanation(data, forecast):
-    historical_data_str = data.to_string(index=False)  
+    historical_data_str = data.to_string(index=False)  fore
     forecast_str = ', '.join(map(str, forecast)) 
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
@@ -184,14 +184,11 @@ def generate_explanation(data, forecast):
 
     prompt = f"""
     {System_Prompt}
-    
-    1. Make an analysis of the historical sales data and identify key trends, anomalies, and patterns:
-    {historical_data_str}
-    
-    2. Based on the provided data, explain how the forecast sales were derived: {forecast_str}.
-    
-    3. Use the following context to enhance your analysis and explanation, but remember the constraints:
-    {context}
+    Based on the given sales data and forecast results, craft a concise and informative response that communicates the insights effectively: {historical_data_str}. 
+    Ensure the response is tailored to the user's query, uses a professional tone, and includes specific details such as time periods, trends, and actionable recommendations: {forecast_str}. 
+    Provide context for the predictions, explain any significant anomalies or changes, and use simple language to make the insights accessible to non-technical users. 
+    If applicable, suggest strategies for improving sales performance: {context}.
+
     """
 
     response = openai.ChatCompletion.create(
