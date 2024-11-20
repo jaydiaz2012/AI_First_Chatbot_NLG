@@ -100,7 +100,7 @@ def generate_nlg_response(prompt, forecast):
     try:
         # Prepare a summary of the data
         data_summary = forecast        
-        full_prompt = f"""Analyze the following dataset:
+        prompt = f"""Analyze the following dataset:
 
 Summary Statistics:
 {data_summary}
