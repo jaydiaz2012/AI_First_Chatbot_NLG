@@ -138,7 +138,7 @@ def forecast_sales(data, sales_column):
         temperature= 0.1,
         messages=[
             {"role": "system", "content": System_Prompt},
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": full_prompt}
         ]
     )
 
@@ -267,7 +267,7 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
     #NLP Page
-    def initialize_conversation(prompt):
+    def initialize_conversation(full_prompt):
         if 'message' not in st.session_state:
             st.session_state.message = []
             st.session_state.message.append({"role": "system", "content": System_Prompt})
@@ -284,7 +284,7 @@ elif options == "SalesX AI":
     if user_message := st.chat_input("Ask me more about your forecast!"):
         with st.chat_message("user"):
             st.markdown(user_message)
-        st.session_state.message.append({"role": "user", "content": prompt})
+        st.session_state.message.append({"role": "user", "content": user_message})
         chat = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=st.session_state.message,
