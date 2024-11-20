@@ -260,8 +260,36 @@ elif options == "SalesX AI":
             # Visualization
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
-            
+    
             #NLG
             prompt = f"Analyze the {forecast}. Provide insights on the trend."
             nlg_response = generate_nlg_response(prompt, forecast)
             st.write("Forecast Sales:", nlg_response)
+
+    #AI Chat Page
+    def initialize_conversation(prompt):
+        if 'message' not in st.session_state:
+            st.session_state.message = []
+            st.session_state.message.append({"role": "system", "content": System_Prompt})
+
+    initialize_conversation(System_Prompt)
+
+    for messages in st.session_state.message:
+        if messages['role'] == 'system':
+            continue
+        else:
+            with st.chat_message(messages["role"]):
+                st.markdown(messages["content"])
+
+    if user_message := st.chat_input("Ask me anything AWS-related!"):
+        with st.chat_message("user"):
+            st.markdown(user_message)
+        st.session_state.message.append({"role": "user", "content": user_message})
+        chat = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=st.session_state.message,
+        )
+        response = chat.choices[0].message.content
+        with st.chat_message("assistant"):
+            st.markdown(response)
+        st.session_state.message.append({"role": "assistant", "content": response})
