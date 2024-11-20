@@ -270,9 +270,9 @@ elif options == "SalesX AI":
     def initialize_conversation(prompt):
         if 'message' not in st.session_state:
             st.session_state.message = []
-            st.session_state.message.append({"role": "system", "content": System_Prompt})
+            st.session_state.message.append({"role": "system", "content": prompt})
 
-    initialize_conversation(System_Prompt)
+    initialize_conversation(prompt)
 
     for messages in st.session_state.message:
         if messages['role'] == 'system':
@@ -284,7 +284,7 @@ elif options == "SalesX AI":
     if user_message := st.chat_input("Ask me more about your forecast!"):
         with st.chat_message("user"):
             st.markdown(user_message)
-        st.session_state.message.append({"role": "user", "content": System_Prompt})
+        st.session_state.message.append({"role": "user", "content": prompt})
         chat = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=st.session_state.message,
