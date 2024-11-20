@@ -110,13 +110,12 @@ Now, based on this data, {prompt}
 Provide a detailed analysis, including exact counts and percentages where applicable."""
 
         response = openai.ChatCompletion.create(
-            model="gpt-4o-mini",  # Using a model with larger context
+            model="gpt-4o-mini", 
             messages=[
                 {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
-            max_tokens=1000
+            temperature=0.1,
         )
         return response.choices[0].message['content'].strip()
     except Exception as e:
