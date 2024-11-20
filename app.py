@@ -191,8 +191,7 @@ def generate_explanation(data, forecast):
 
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.7,
-        max_tokens=1000,
+        temperature= 0.1,
         messages=[
             {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
             {"role": "user", "content": prompt}
