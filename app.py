@@ -70,11 +70,17 @@ with st.sidebar:
     api_key = st.text_input('Enter OpenAI API token:', type='password')
     
     # Check if the API key is valid
-    if api_key and api_key.startswith('sk-'):  # Removed length check
+    if api_key and api_key.startswith('sk-'): 
         openai.api_key = api_key
-        st.success('API key is valid. Proceed to enter your sales data!', icon='👉')
+        st.success('API key is valid. Proceed to enter your sales data!', icon='✔️')
     else:
-        st.warning('Please enter a valid OpenAI API token!', icon='⚠️')
+        st.warning('Please enter a valid OpenAI API token!', icon='❌')
+
+    st.header("Warning!🛑 Do the following to enable the AI Bot to work successfully.")
+    st.write("Enter a valid OpenAI key.")
+    st.write("Use only CSV files when uploading. You can enter manually the data.")
+    st.write("If using CSV, select the column with the header Sales or Revenue or the like for analysis.")
+    st.write("After generating, the AI Bot will provide a table of Sales Forecast, a line chart, and a summary.")
 
     options = option_menu(
         "Content",
@@ -82,7 +88,7 @@ with st.sidebar:
         default_index=0
     )
 
-# Initialize session state for messages
+
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
