@@ -122,6 +122,45 @@ with st.sidebar:
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
+def generate_nlg_response(prompt, data):
+    """
+    Generate text using OpenAI's GPT model for NLG.
+    """
+    try:
+        # Prepare a summary of the data
+        data_summary = data.describe().to_string()
+        data_head = data.head().to_string()
+        data_tail = data.tail().to_string()
+        
+        full_prompt = f"""Analyze the following dataset:
+
+Summary Statistics:
+{data_summary}
+
+First few rows:
+{data_head}
+
+Last few rows:
+{data_tail}
+
+Now, based on this data, {prompt}
+
+Provide a detailed analysis, including exact counts and percentages where applicable."""
+
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-mini",  # Using a model with larger context
+            messages=[
+                {"role": "system", "content": "You are an AI assistant analyzing user behavior data. Provide accurate statistics and insights based on the full dataset."},
+                {"role": "user", "content": full_prompt}
+            ],
+            temperature=0.7,
+            max_tokens=1000
+        )
+        return response.choices[0].message['content'].strip()
+    except Exception as e:
+        st.error(f"Error in generating NLG response: {str(e)}")
+        return "Sorry, I couldn't generate a response at this time."
+
 # Function to forecast revenue
 def forecast_sales(data, sales_column):
     # Prepare the input for the GPT model
@@ -279,3 +318,7 @@ elif options == "SalesX AI":
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
             
+            #NLG
+            prompt = f"Analyze the {forecast}. Provide insights on the trend."
+            nlg_response = generate_nlg_response(prompt, forecast)
+            st.write("Forecast Sales:" nlg_response)
