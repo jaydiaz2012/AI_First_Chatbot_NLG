@@ -130,7 +130,7 @@ def generate_nlg_response(prompt, forecast):
     """
     try:
         # Prepare a summary of the data
-        data_summary = forecast.to_string()
+        data_summary = forecast
         data_head = forecast.head().to_string()
         data_tail = forecast.tail().to_string()
         
