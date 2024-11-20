@@ -267,7 +267,7 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
     #NLP Page
-    def initialize_conversation(prompt):
+    def initialize_conversation(System_Prompt):
         if 'message' not in st.session_state:
             st.session_state.message = []
             st.session_state.message.append({"role": "system", "content": prompt})
