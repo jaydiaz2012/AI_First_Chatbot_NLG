@@ -76,11 +76,12 @@ with st.sidebar:
     else:
         st.warning('Please enter a valid OpenAI API token!', icon='❌')
 
-    st.header("Warning!🛑 Do the following to enable the AI Bot to work successfully.")
+    st.header("Warning!🛑")
+    st.subheader("Do the following to enable SalesX to work successfully.")
     st.write("Enter a valid OpenAI key.")
     st.write("Use only CSV files when uploading. You can enter manually the data.")
     st.write("If using CSV, select the column with the header Sales or Revenue or the like for analysis.")
-    st.write("After generating, the AI Bot will provide a table of Sales Forecast, a line chart, and a summary.")
+    st.write("After generating, the AI Bot will provide a table of forecasted sales for the next 12 months starting at 0, a line chart, and a summary.")
 
     options = option_menu(
         "Content",
@@ -111,8 +112,8 @@ Provide a detailed analysis, including exact counts and percentages where applic
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini",  # Using a model with larger context
             messages=[
-                {"role": "system", "content": "You are an AI assistant analyzing user behavior data. Provide accurate statistics and insights based on the full dataset."},
-                {"role": "user", "content": full_prompt}
+                {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
+                {"role": "user", "content": prompt}
             ],
             temperature=0.7,
             max_tokens=1000
