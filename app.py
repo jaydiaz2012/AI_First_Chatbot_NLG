@@ -266,7 +266,7 @@ elif options == "SalesX AI":
             nlg_response = generate_nlg_response(prompt, forecast)
             st.write("Forecast Sales:", nlg_response)
 
-    #AI Chat Page
+    #NLP Page
     def initialize_conversation(prompt):
         if 'message' not in st.session_state:
             st.session_state.message = []
@@ -281,7 +281,7 @@ elif options == "SalesX AI":
             with st.chat_message(messages["role"]):
                 st.markdown(messages["content"])
 
-    if user_message := st.chat_input("Ask me anything AWS-related!"):
+    if user_message := st.chat_input("Ask me more about your forecast!"):
         with st.chat_message("user"):
             st.markdown(user_message)
         st.session_state.message.append({"role": "user", "content": user_message})
