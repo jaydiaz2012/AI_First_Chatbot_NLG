@@ -76,15 +76,6 @@ with st.sidebar:
     else:
         st.warning('Please enter a valid OpenAI API token!', icon='⚠️')
 
-    st.header("Instructions")
-    st.write("1. Enter a valid OpenAI API Key.")
-    st.write("2. Click SalesX AI on the Sidebar to get started!")
-    st.write("3. Input your sales data.")
-    st.write("4. Click 'Forecast Sales' to see the predictions.")
-    
-    if st.button("Reset"):
-        st.session_state.clear()  # Clear session state to reset the app
-
     options = option_menu(
         "Content",
         ["Home", "About Me", "SalesX AI"],
@@ -235,18 +226,16 @@ elif options == "SalesX AI":
     st.title("📈 SalesX AI")
     
     # Option for user to input data
-    data_input_method = st.selectbox("How would you like to input your sales data?", ["Upload CSV", "Enter Data Manually"])
+    data_input_method = st.selectbox("Upload Sales Data Here (CSV only) or Manually Input Sales Data", ["CSV", "Manual Data"])
 
-    if data_input_method == "Upload CSV":
-        uploaded_file = st.file_uploader("Upload your sales data CSV", type="csv")
+    if data_input_method == "CSV":
+        uploaded_file = st.file_uploader("Upload CSV", type="csv")
         if uploaded_file is not None:
             data = pd.read_csv(uploaded_file)
-            st.write("Data Preview:", data.head())
-            # Create a dropdown for selecting the column to forecast
-            sales_column = st.selectbox("Select the column to forecast:", data.columns)
+            st.write("Sales Data Preview:", data.head())
+            sales_column = st.selectbox("Select the (Sales or Revenue) column to forecast:", data.columns)
     else:
-        # Manual data entry
-        st.write("Enter your sales data below:")
+        st.write("Manually input sales data below:")
         sales_data = st.text_area("Sales Data (comma-separated, e.g., 100, 150, 200)", "")
         if sales_data:
             sales_list = [float(x) for x in sales_data.split(",")]
