@@ -321,4 +321,4 @@ elif options == "SalesX AI":
             #NLG
             prompt = f"Analyze the {forecast}. Provide insights on the trend."
             nlg_response = generate_nlg_response(prompt, forecast)
-            st.write("Forecast Sales:" nlg_response)
+            st.write("Forecast Sales:", nlg_response)
