@@ -243,13 +243,13 @@ elif options == "SalesX AI":
             forecast = forecast_sales(data, sales_column)
             st.write("Forecasted Sales:", forecast)
 
-            explanation = generate_explanation(data, forecast)
-            st.write("Explanation:", explanation)
-
             # Visualization
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
-    
+
+            #explanation = generate_explanation(data, forecast)
+            #st.write("Explanation:", explanation)
+            
             #NLG
             prompt = f"Analyze the {forecast}. Provide insights on the trend."
             nlg_response = generate_nlg_response(prompt, forecast)
