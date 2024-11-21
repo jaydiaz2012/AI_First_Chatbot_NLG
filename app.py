@@ -327,7 +327,7 @@ elif options == "SalesX AI":
 
             #NLG
             st.header("Summary of Statistical Report")
-            prompt = f"Given the following sales data: {sales_data_str}, give the forecast: {forecast} for the next 12 periods. Provide insight, trends, and analysis."
+            prompt = f"Provided with the sales data {data}, give the forecast: {forecast} for the next 12 periods. Provide the statistical analysis: {System_Prompt}."
             nlg_response = generate_nlg_response(prompt, forecast)
             st.write("Forecast Sales:", nlg_response)
 
