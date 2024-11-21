@@ -165,8 +165,8 @@ with st.sidebar:
     )
     st.image('images/sales_chart.jpg')
 
-if 'message' not in st.session_state:
-    st.session_state.message = []
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
 
 def generate_nlg_response(prompt, forecast):
     """
@@ -212,7 +212,7 @@ def forecast_sales(data, sales_column):
         ]
     )
 
-    forecasted_values = response['choices'][0]['message']['content']
+    forecasted_values = response['choices'][0]['messages']['content']
     
     print("API Response:", forecasted_values)
     
