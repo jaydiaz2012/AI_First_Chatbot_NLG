@@ -154,8 +154,8 @@ with st.sidebar:
 
     options = option_menu(
         "Content",
-        ["Home", "About Me", "SalesX AI", "Talk to SalesX"],
-        icons = ['house', 'heart', 'pen', 'chat'],
+        ["Home", "About Me", "SalesX AI"],
+        icons = ['house', 'heart', 'pen'],
         menu_icon = "book", 
         default_index = 0,
         styles = {
@@ -306,7 +306,7 @@ elif options == "SalesX AI":
         uploaded_file = st.file_uploader("Upload CSV", type="csv")
         if uploaded_file is not None:
             data = pd.read_csv(uploaded_file)
-            st.write("Sales Data Preview:", data.head())
+            st.write("Sales Data:", data.head())
             sales_column = st.selectbox("Select the (Sales or Revenue) column to forecast:", data.columns)
     else:
         st.write("Manually input sales data below:")
@@ -327,7 +327,7 @@ elif options == "SalesX AI":
 
             #NLG
             st.header("Summary of Statistical Report")
-            prompt = f"Analyze the {forecast}. Provide insights on the trend."
+            prompt = f"Given the following sales data: {sales_data_str}, give the forecast: {forecast} for the next 12 periods. Provide insight, trends, and analysis."
             nlg_response = generate_nlg_response(prompt, forecast)
             st.write("Forecast Sales:", nlg_response)
 
@@ -335,30 +335,3 @@ elif options == "SalesX AI":
             #st.header("Summary of Sales Analyses")
             #explanation = generate_explanation(data, forecast)
             #st.write("Explanation:", explanation)
-            
-            #ChatBot 
-   # def initialize_conversation(prompt):
-   #  if 'message' not in st.session_state:
-   #      st.session_state.message = []
-   #      st.session_state.message.append({"role": "system", "content": System_Prompt})
-        
-    #initialize_conversation(System_Prompt)
-    
-   # for messages in st.session_state.message:
-   #   if messages ['role'] == 'system' : continue 
-   #   else :
-   #     with st.chat_messages(messages["role"]):
-   #          st.markdown(messages["content"])
-    
-   # if user_message := st.chat_input("Ask questions!"):
-   #     with st.chat_message("user"):
-   #         st.markdown(user_message)
-   #     st.session_state.message.append({"role": "user", "content": user_message})
-   #     chat = openai.ChatCompletion.create(
-   #         model="gpt-4o-mini",
-   #         messages=st.session_state.message,
-   #     ) 
-   #     response = chat.choices[0].message.content
-   #     with st.chat_message("assistant"):
-   #         st.markdown(response)
-   #     st.session_state.message.append({"role": "assistant", "content": response})
