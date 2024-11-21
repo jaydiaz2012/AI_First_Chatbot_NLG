@@ -253,7 +253,7 @@ def generate_explanation(data, forecast):
 
     2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {forecast_str}
 
-    3. Use context to enhance the insights and analysis: {contest}
+    3. Use context to enhance the insights and analysis: {context}
     """
 
     response = openai.ChatCompletion.create(
