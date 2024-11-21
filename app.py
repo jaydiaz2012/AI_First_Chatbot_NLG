@@ -250,7 +250,7 @@ def generate_explanation(data, forecast):
     _, indices = index.search(query_embedding_np, 2)
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
-    structured_prompt = f"Context:\n{context}\n\nQuery:\n{user_message}\n\nResponse:"
+    
     prompt = f"""
     {System_Prompt_Forecast}
     1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns: {historical_data_str}. 
@@ -262,7 +262,8 @@ def generate_explanation(data, forecast):
 
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.3,
+        temperature= 0.7,
+        max_tokens=1500,
         messages=[
             {"role": "user", "content": prompt}
         ]
@@ -317,7 +318,7 @@ elif options == "SalesX AI":
             sales_column = 'Sales' 
 
     if 'data' in locals() and 'sales_column' in locals():
-        if st.button("Forecast Sales"):
+        if st.button("Predict My Sales"):
             forecast = forecast_sales(data, sales_column)
             st.write("Forecasted Sales:", forecast)
 
@@ -332,6 +333,6 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            #st.header("Summary of Sales Analyses")
-            #explanation = generate_explanation(data, forecast)
-            #st.write("Explanation:", explanation)
+            st.header("Summary of Sales Analyses")
+            explanation = generate_explanation(data, forecast)
+            st.write("Explanation:", explanation)
