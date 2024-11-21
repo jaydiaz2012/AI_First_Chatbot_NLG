@@ -40,7 +40,7 @@ Generate a sales forecast for the next 12 periods using appropriate statistical 
 Output the forecasted values as a comma-separated string for easy parsing and into a line chart with the months as x and sales as y. 
 
 Context:
-The users will provide historical sales data. The assistant will preprocess this data, train forecasting models, and present outputs in user-friendly formats such as charts, graphs, or downloadable reports. Users may ask questions in natural language, request forecasts for specific products or regions, or explore hypothetical scenarios.
+The users will provide historical sales data over the past 12 periods. You will predict the sales for the next 12 periods based on the historical sales data given. You will present the results in a table, line chart, and a summary of statistical analysis. 
 
 Constraints:
 
@@ -88,8 +88,7 @@ with st.sidebar:
         ["Home", "About Me", "SalesX AI"],
         default_index=0
     )
-
-
+    
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 
@@ -115,39 +114,32 @@ Provide a detailed analysis, including exact counts and percentages where applic
                 {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.1,
+            temperature=0.7,
         )
         return response.choices[0].message['content'].strip()
     except Exception as e:
         st.error(f"Error in generating NLG response: {str(e)}")
         return "Sorry, I couldn't generate a response at this time."
 
-# Function to forecast revenue
 def forecast_sales(data, sales_column):
-    # Prepare the input for the GPT model
     sales_data = data[sales_column].tolist()
     sales_data_str = ', '.join(map(str, sales_data))
 
-    # Create a prompt for the GPT model
     prompt = f"Given the following sales data: {sales_data_str}, forecast the next 12 periods of revenue. Return only the forecasted values as a comma-separated string."
-
-    # Call the OpenAI API to generate the forecast
+    
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.1,
+        temperature= 0.7,
         messages=[
             {"role": "system", "content": System_Prompt},
             {"role": "user", "content": prompt}
         ]
     )
 
-    # Extract the forecasted values from the response
     forecasted_values = response['choices'][0]['message']['content']
-
-    # Print the response for debugging
+    
     print("API Response:", forecasted_values)
-
-    # Convert the forecasted values to a list of floats
+    
     try:
         forecasted_data = [float(value) for value in forecasted_values.split(',')]
     except ValueError as e:
@@ -181,25 +173,23 @@ def generate_explanation(data, forecast):
 
     prompt = f"""
     {System_Prompt}
-    Based on the given sales data and forecast results, craft a concise and informative response that communicates the insights effectively: {historical_data_str}. 
-    Ensure the response is tailored to the user's query, uses a professional tone, and includes specific details such as time periods, trends, and actionable recommendations: {forecast_str}. 
-    Provide context for the predictions, explain any significant anomalies or changes, and use simple language to make the insights accessible to non-technical users. 
-    If applicable, suggest strategies for improving sales performance: {context}.
+    1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns: {historical_data_str}. 
+    2. Ensure the response is tailored to the user's query using a professional tone, and explain how the forecasted sales values came about: {forecast_str}. 
+    3. Provide {context} for the predictions, explain any significant trends, anomalies or changes, and use simple language to make the insights accessible to non-technical users. 
+    If applicable, suggest strategies for improving sales performance.
 
     """
 
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.1,
+        temperature= 0.3,
         messages=[
-            {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
             {"role": "user", "content": prompt}
         ]
     )
     
-    return response.choices[0].message['content'].stip()
+    return response['choices'][0]['message']['content']
 
-# Home Page
 if options == "Home":
     st.title("Welcome to SalesX AI!🏆")
     st.write("""
@@ -230,7 +220,6 @@ elif options == "About Me":
 elif options == "SalesX AI":
     st.title("📈 SalesX AI")
     
-    # Option for user to input data
     data_input_method = st.selectbox("Upload Sales Data Here (CSV only) or Manually Input Sales Data", ["CSV", "Manual Data"])
 
     if data_input_method == "CSV":
