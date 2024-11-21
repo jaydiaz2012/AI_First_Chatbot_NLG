@@ -201,7 +201,9 @@ def forecast_sales(data, sales_column):
     sales_data = data[sales_column].tolist()
     sales_data_str = ', '.join(map(str, sales_data))
 
-    prompt = f"Given the following sales data: {sales_data_str}, forecast the next 12 periods of sales. Return only the forecasted sales values as a comma-separated string."
+    prompt = f"""
+    {System_Prompt}
+    Given the following sales data: {sales_data_str}, forecast the next 12 periods of sales. Return only the forecasted sales values as a comma-separated string."""
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
