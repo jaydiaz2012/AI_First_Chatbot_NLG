@@ -125,18 +125,18 @@ def forecast_sales(data, sales_column):
     sales_data = data[sales_column].tolist()
     sales_data_str = ', '.join(map(str, sales_data))
 
-    prompt = f"Given the following sales data: {sales_data_str}, forecast the next 12 periods of revenue. Return only the forecasted values as a comma-separated string."
+    prompt = f"Given the following sales data: {sales_data_str}, forecast the next 12 periods of sales. Return only the forecasted sales values as a comma-separated string."
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.3,
+        temperature= 0.1,
         messages=[
             {"role": "system", "content": System_Prompt},
             {"role": "user", "content": prompt}
         ]
     )
 
-    forecasted_values = response['choices'][0]['message']['content']
+    forecasted_values = response.choices[0].message['content'].strip()
     
     print("API Response:", forecasted_values)
     
@@ -172,7 +172,7 @@ def generate_explanation(data, forecast):
     context = ' '.join(retrieved_docs)
 
     prompt = f"""
-    {System_Prompt_Forecast}
+    {System_Prompt}
     1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns: {historical_data_str}. 
     2. Ensure the response is tailored to the user's query using a professional tone, and explain how the forecasted sales values came about: {forecast_str}. 
     3. Provide {context} for the predictions, explain any significant trends, anomalies or changes, and use simple language to make the insights accessible to non-technical users. 
