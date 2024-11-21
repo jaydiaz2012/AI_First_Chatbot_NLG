@@ -102,7 +102,7 @@ Constraints
 - Prioritize accuracy and transparency
 
 Expectations:
-- Deliver sales forecasts with: Mean Absolute Error (MAE) < 10%, R-squared (R²) > 0.85, Comprehensive performance metrics
+- Deliver sales forecasts. 
 - Provide confidence intervals for predictions
 - Highlight key driving factors influencing sales forecast
 - Answer questions from user using the inputs
@@ -246,12 +246,14 @@ def generate_explanation(data, forecast):
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
     
-    prompt = f"""{System_Prompt_Forecast}
-    1. Analyze the provided data and identify trends, anomalies, and patterns: {historical_data_str}
+    prompt = f"""
+    {System_Prompt_Forecast}
+    
+    1. Analyze the provided data and identify trends, anomalies, and patterns. {Input}
 
-    2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {forecast_str}
+    2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {Expectations}
 
-    3. Use the following context to enhance the insights and analysis: {context}
+    3. Use the following context to enhance the insights and analysis. {Context}
     """
     
     response = openai.ChatCompletion.create(
