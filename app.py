@@ -324,6 +324,8 @@ elif options == "SalesX AI":
             # Visualization
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
+            st.bar_chart(forecast)
+            st.bar_chart(forecast)
 
             #NLG
             #st.header("Summary of Statistical Report")
