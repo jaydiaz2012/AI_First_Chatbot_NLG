@@ -142,7 +142,7 @@ with st.sidebar:
     options = option_menu(
         "Content",
         ["Home", "About Me", "SalesX AI", "Talk to SalesX"],
-        icons = ['house', 'heart', 'chart', 'chat'],
+        icons = ['house', 'heart', 'pen', 'chat'],
         menu_icon = "book", 
         default_index = 0,
         styles = {
@@ -151,7 +151,7 @@ with st.sidebar:
             "nav-link-selected" : {"background-color" : "#1b8cc4"}          
         }
     )
-    st.image('images/sales_chart.png')
+    st.image('images/sales_chart.jpg')
 
 if 'messages' not in st.session_state:
     st.session_state.messages = []
