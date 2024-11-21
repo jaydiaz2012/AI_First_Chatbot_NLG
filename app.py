@@ -252,8 +252,8 @@ elif options == "SalesX AI":
             forecast = forecast_sales(data, sales_column)
             st.write("Forecasted Sales:", forecast)
 
-            #explanation = generate_explanation(data, forecast)
-            #st.write("Explanation:", explanation)
+            explanation = generate_explanation(data, forecast)
+            st.write("Explanation:", explanation)
 
             # Visualization
             st.header("Forecast Sales Chart")
