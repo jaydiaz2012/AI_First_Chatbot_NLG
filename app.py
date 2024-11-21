@@ -246,15 +246,8 @@ def generate_explanation(data, forecast):
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
     
-    prompt = f"""
-    {System_Prompt_Forecast}
-    1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns: {historical_data_str}. 
-    2. Ensure the response is tailored to the user's query using a professional tone, and explain how the forecasted sales values came about: {forecast_str}.
-    3. Provide context for the predictions, explain any significant trends, anomalies or changes, and use simple language to make the insights accessible to non-technical users: {context}. 
-    If applicable, suggest strategies for improving sales performance.
-
-    """
-
+    prompt = {System_Prompt_Forecast}
+    
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         temperature= 0.3,
