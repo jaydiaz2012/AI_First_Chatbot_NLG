@@ -317,7 +317,7 @@ elif options == "SalesX AI":
             sales_column = 'Sales' 
 
     if 'data' in locals() and 'sales_column' in locals():
-        if st.button("Predict My Sales"):
+        if st.button("Forecast Sales"):
             forecast = forecast_sales(data, sales_column)
             st.write("Forecasted Sales:", forecast)
 
@@ -335,6 +335,6 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            st.header("Summary of Sales Analyses")
-            explanation = generate_explanation(prompt, forecast)
-            st.write("Explanation:", explanation)
+            #st.header("Summary of Sales Analyses")
+            #explanation = generate_explanation(prompt, forecast)
+            #st.write("Explanation:", explanation)
