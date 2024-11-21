@@ -303,7 +303,7 @@ elif options == "SalesX AI":
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
 
-            explanation = generate_explanation(forecast)
+            explanation = generate_explanation(data, forecast)
             st.write("Explanation:", explanation)
             
             #NLG
