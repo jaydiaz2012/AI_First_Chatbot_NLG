@@ -225,8 +225,8 @@ def forecast_sales(data, sales_column):
     return forecasted_data
 
 def generate_explanation(data, forecast):
-    historical_data_str = data.to_string(index=False)
-    forecast_str = ', '.join(map(str, forecast)) 
+    #historical_data_str = data.to_string(index=False)
+    #forecast_str = ', '.join(map(str, forecast)) 
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
     dataframed['combined'] = dataframed.apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
@@ -248,9 +248,9 @@ def generate_explanation(data, forecast):
     
     prompt = f"""
     {System_Prompt_Forecast}
-    1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns: {historical_data_str}. 
-    2. Ensure the response is tailored to the user's query using a professional tone, and explain how the forecasted sales values came about: {forecast_str}. 
-    3. Provide {context} for the predictions, explain any significant trends, anomalies or changes, and use simple language to make the insights accessible to non-technical users. 
+    1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns. 
+    2. Ensure the response is tailored to the user's query using a professional tone, and explain how the forecasted sales values came about. 
+    3. Provide context for the predictions, explain any significant trends, anomalies or changes, and use simple language to make the insights accessible to non-technical users. 
     If applicable, suggest strategies for improving sales performance.
 
     """
@@ -328,6 +328,6 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            #st.header("Summary of Sales Analyses")
-            #explanation = generate_explanation(data, forecast)
-            #st.write("Explanation:", explanation)
+            st.header("Summary of Sales Analyses")
+            explanation = generate_explanation(data, forecast)
+            st.write("Explanation:", explanation)
