@@ -142,7 +142,7 @@ with st.sidebar:
     options = option_menu(
         "Content",
         ["Home", "About Me", "SalesX AI", "Talk to SalesX"],
-        icons = [''house', 'heart', 'chart', 'chat'],
+        icons = ['house', 'heart', 'chart', 'chat'],
         menu_icon = "book", 
         default_index = 0,
         styles = {
