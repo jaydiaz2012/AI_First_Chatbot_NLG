@@ -246,9 +246,6 @@ elif options == "SalesX AI":
             # Visualization
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
-
-            #explanation = generate_explanation(data, forecast)
-            #st.write("Explanation:", explanation)
             
             #NLG
             prompt = f"Analyze the {forecast}. Provide insights on the trend."
