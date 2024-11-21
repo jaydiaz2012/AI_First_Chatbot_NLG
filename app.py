@@ -211,7 +211,7 @@ def forecast_sales(data, sales_column):
         ]
     )
 
-    forecasted_values = response.choices[0].message']['content']
+    forecasted_values = response.choices[0]['message']['content']
     
     print("API Response:", forecasted_values)
     
