@@ -129,7 +129,7 @@ def forecast_sales(data, sales_column):
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.7,
+        temperature= 0.3,
         messages=[
             {"role": "system", "content": System_Prompt},
             {"role": "user", "content": prompt}
@@ -172,7 +172,7 @@ def generate_explanation(data, forecast):
     context = ' '.join(retrieved_docs)
 
     prompt = f"""
-    {System_Prompt}
+    {System_Prompt_Forecast}
     1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns: {historical_data_str}. 
     2. Ensure the response is tailored to the user's query using a professional tone, and explain how the forecasted sales values came about: {forecast_str}. 
     3. Provide {context} for the predictions, explain any significant trends, anomalies or changes, and use simple language to make the insights accessible to non-technical users. 
@@ -183,12 +183,15 @@ def generate_explanation(data, forecast):
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         temperature= 0.3,
+        max_tokens=1000,
         messages=[
+            {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
             {"role": "user", "content": prompt}
+            {
         ]
     )
     
-    return response['choices'][0]['message']['content']
+    return response.choices[0].message['content'].strip()
 
 if options == "Home":
     st.title("Welcome to SalesX AI!🏆")
