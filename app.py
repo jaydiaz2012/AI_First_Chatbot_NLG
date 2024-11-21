@@ -162,12 +162,12 @@ Summary Statistics:
 
 Now, based on this data, {prompt}
 
-Provide a detailed analysis, including exact counts and percentages where applicable."""
+Provide a statistical analysis, including exact counts and percentages where applicable."""
 
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini", 
             messages=[
-                {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
+                {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics based on the full dataset."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -309,5 +309,7 @@ elif options == "SalesX AI":
             nlg_response = generate_nlg_response(prompt, forecast)
             st.write("Forecast Sales:", nlg_response)
 
+            #Analysis with RAG
+            st.header("Summary of Analyses")
             explanation = generate_explanation(data, forecast)
             st.write("Explanation:", explanation)
