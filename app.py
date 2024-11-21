@@ -201,19 +201,18 @@ def forecast_sales(data, sales_column):
     sales_data = data[sales_column].tolist()
     sales_data_str = ', '.join(map(str, sales_data))
 
-    prompt = f"""
-    {System_Prompt}
-    Given the following sales data: {sales_data_str}, forecast the next 12 periods of sales. Return only the forecasted sales values as a comma-separated string."""
+    prompt = f"Given the following sales data: {sales_data_str}, forecast the next 12 periods of sales. Return only the forecasted sales values as a comma-separated string."
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.3,
+        temperature= 0.1,
         messages=[
+            {"role": "system", "content": System_Prompt},
             {"role": "user", "content": prompt}
         ]
     )
 
-    forecasted_values = response.choices[0]['message']['content']
+    forecasted_values = response['choices'][0]['message']['content']
     
     print("API Response:", forecasted_values)
     
@@ -307,9 +306,10 @@ elif options == "SalesX AI":
         if uploaded_file is not None:
             data = pd.read_csv(uploaded_file)
             st.write("Sales Data:", data.head())
+            st.write("Sales Data:", data.tail())
             sales_column = st.selectbox("Select the (Sales or Revenue) column to forecast:", data.columns)
     else:
-        st.write("Manually input sales data below:")
+        st.write("Enter your sales data below:")
         sales_data = st.text_area("Sales Data (comma-separated, e.g., 100, 150, 200)", "")
         if sales_data:
             sales_list = [float(x) for x in sales_data.split(",")]
@@ -326,13 +326,13 @@ elif options == "SalesX AI":
             st.line_chart(forecast)
 
             #NLG
-            st.header("Summary of Statistical Report")
-            prompt = f"""
-            {System_Prompt}
-            Provided with the sales data, give the forecast for the next 12 periods. Provide the statistical analysis, trends, insights, and conclusion.
-            """
-            nlg_response = generate_nlg_response(prompt, forecast)
-            st.write("Forecast Sales:", nlg_response)
+            #st.header("Summary of Statistical Report")
+            #prompt = f"""
+            #{System_Prompt}
+            #Provided with the sales data, give the forecast for the next 12 periods. Provide the statistical analysis, trends, insights, and conclusion.
+            #"""
+            #nlg_response = generate_nlg_response(prompt, forecast)
+            #st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
             #st.header("Summary of Sales Analyses")
