@@ -334,9 +334,9 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            st.header("Summary of Sales Analyses")
-            explanation = generate_explanation(data, forecast)
-            st.write("Explanation:", explanation)
+            #st.header("Summary of Sales Analyses")
+            #explanation = generate_explanation(data, forecast)
+            #st.write("Explanation:", explanation)
             
             #ChatBot 
     def initialize_conversation(prompt):
