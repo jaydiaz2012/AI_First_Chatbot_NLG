@@ -261,7 +261,7 @@ def generate_explanation(data, forecast):
         max_tokens=500,
         top_p=1,
         frequency_penalty=0,
-        presence_penalty=0)
+        presence_penalty=0,
         messages=[
             {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
