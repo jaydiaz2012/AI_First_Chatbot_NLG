@@ -246,7 +246,13 @@ def generate_explanation(data, forecast):
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
     
-    prompt = {System_Prompt_Forecast}
+    prompt = f"""{System_Prompt}
+    1. Analyze the provided data and identify trends, anomalies, and patterns: {historical_data_str}
+
+    2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {forecast_str}
+
+    3. Use the following context to enhance the insights and analysis: {context}
+    """
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
@@ -256,7 +262,7 @@ def generate_explanation(data, forecast):
         frequency_penalty=0,
         presence_penalty=0,
         messages=[
-            {"role": "system", "content": System_Prompt_Forecast},
+            {"role": "system", "content": System_Prompt},
             {"role": "user", "content": prompt}
         ]
     )
