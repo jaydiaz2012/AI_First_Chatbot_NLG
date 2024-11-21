@@ -148,7 +148,7 @@ with st.sidebar:
     st.write("Enter a valid OpenAI key.")
     st.write("Use only CSV files when uploading. You can enter manually the data.")
     st.write("If using CSV, select the column with the header Sales or Revenue or the like for analysis.")
-    st.write("After generating, the AI Bot will provide a table of forecasted sales for the next 12 months starting at 0, a line chart, and a summary.")
+    st.write("After generating, the AI Bot will provide a table of forecasted sales for the next 12 months starting at 0, a line chart, and two summaries: data statistical summary and data analysis summary.")
 
     options = option_menu(
         "Content",
@@ -239,7 +239,7 @@ def generate_explanation(data, forecast):
     index = faiss.IndexFlatL2(embedding_dim)
     index.add(embeddings_np)
 
-    query_embedding = get_embedding(data, engine='text-embedding-3-small')
+    query_embedding = get_embedding(forecast, engine='text-embedding-3-small')
     query_embedding_np = np.array([query_embedding]).astype('float32')
 
     _, indices = index.search(query_embedding_np, 2)
