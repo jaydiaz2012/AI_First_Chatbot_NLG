@@ -327,8 +327,7 @@ elif options == "SalesX AI":
 
 #ChatBot 
 elif options == "Talk to SalesX":
-    st.markdown(apply_background(bg3), unsafe_allow_html=True)
-    st.markdown('<h1 class="outlined-text">Talk to Eve</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="outlined-text">Talk to SalesX</h1>', unsafe_allow_html=True)
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
     dataframed['combined'] = dataframed.apply(lambda row : ' '.join(row.values.astype(str)), axis = 1)
     documents = dataframed['combined'].tolist()
