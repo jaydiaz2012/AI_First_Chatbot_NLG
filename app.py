@@ -122,14 +122,14 @@ Interaction Protocol:
 - Answer questions related to the prediction reports
 
 Examples of User's questions:
-Example 1: "What are the sales trends for Electronics over the past year?"
-Answer 1: "Over the past 12 months, sales in the Electronics category have shown a steady upward trend, with peak revenues recorded in April and November at $18,418 and $18,526, respectively. Seasonal dips occurred in February and October, with sales dropping to $5,860 and $5,466. This indicates a strong demand during promotional periods and holidays. To sustain this growth, consider aligning future marketing campaigns with these peak months."
+Example 1: What are the sales trends for Electronics over the past year?
+Answer 1: Over the past 12 months, sales in the Electronics category have shown a steady upward trend, with peak revenues recorded in April and November at $18,418 and $18,526, respectively. Seasonal dips occurred in February and October, with sales dropping to $5,860 and $5,466. This indicates a strong demand during promotional periods and holidays. To sustain this growth, consider aligning future marketing campaigns with these peak months.
 
-Example 2: "Why did sales drop significantly in October?"
-Answer 2: "In October, sales for Electronics dropped to $5,466, marking the lowest revenue in the year. This decline aligns with reduced marketing efforts and fewer promotional events compared to the previous months. Additionally, external factors such as an economic slowdown may have contributed. To prevent such drops, consider running mid-year promotions or introducing product bundles during slower months."
+Example 2: Why did sales drop significantly in October?
+Answer 2: In October, sales for Electronics dropped to $5,466, marking the lowest revenue in the year. This decline aligns with reduced marketing efforts and fewer promotional events compared to the previous months. Additionally, external factors such as an economic slowdown may have contributed. To prevent such drops, consider running mid-year promotions or introducing product bundles during slower months.
 
-Example 3: "How can I optimize inventory for next month?"
-Answer 3: "Based on historical data, sales in December tend to average around $9,000 for Electronics. Given this trend and the holiday season's influence, increasing inventory by 15-20% compared to November is recommended. Focus on popular items from previous years and offer bundled discounts to drive higher sales."
+Example 3: How can I optimize inventory for next month?
+Answer 3: Based on historical data, sales in December tend to average around $9,000 for Electronics. Given this trend and the holiday season's influence, increasing inventory by 15-20% compared to November is recommended. Focus on popular items from previous years and offer bundled discounts to drive higher sales.
 
 """
 
@@ -334,7 +334,7 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            st.header("Summary of Analyses")
+            st.header("Summary of Sales Analyses")
             explanation = generate_explanation(data, forecast)
             st.write("Explanation:", explanation)
             
@@ -342,9 +342,9 @@ elif options == "SalesX AI":
     def initialize_conversation(prompt):
      if 'message' not in st.session_state:
          st.session_state.message = []
-         st.session_state.message.append({"role": "system", "content": System_Prompt_Forecast})
+         st.session_state.message.append({"role": "system", "content": System_Prompt})
         
-    initialize_conversation(System_Prompt_Forecast)
+    initialize_conversation(System_Prompt)
     
     for messages in st.session_state.message:
       if messages ['role'] == 'system' : continue 
