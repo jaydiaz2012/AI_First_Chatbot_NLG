@@ -1,4 +1,4 @@
-import os
+ import os
 import openai
 import numpy as np
 import pandas as pd
@@ -225,9 +225,7 @@ def forecast_sales(data, sales_column):
 
     return forecasted_data
 
-def generate_explanation(data, forecast):
-    historical_data_str = data[forecast].to_list()
-    forecast_str = ', '.join(map(str, forecast)) 
+def generate_explanation(prompt, forecast):
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
     dataframed['combined'] = dataframed.apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
@@ -240,7 +238,7 @@ def generate_explanation(data, forecast):
     index = faiss.IndexFlatL2(embedding_dim)
     index.add(embeddings_np)
 
-    query_embedding = get_embedding(forecast_str, engine='text-embedding-3-small')
+    query_embedding = get_embedding(forecast, engine='text-embedding-3-small')
     query_embedding_np = np.array([query_embedding]).astype('float32')
 
     _, indices = index.search(query_embedding_np, 2)
@@ -337,5 +335,5 @@ elif options == "SalesX AI":
 
             #Analysis with RAG
             st.header("Summary of Sales Analyses")
-            explanation = generate_explanation(data, forecast)
+            explanation = generate_explanation(prompt, forecast)
             st.write("Explanation:", explanation)
