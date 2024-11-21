@@ -328,6 +328,14 @@ elif options == "SalesX AI":
 #ChatBot 
 elif options == "Talk to SalesX":
     st.title("📢 Talk to SalesX")
+    dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
+    dataframed['combined'] = dataframed.apply(lambda row : ' '.join(row.values.astype(str)), axis = 1)
+    documents = dataframed['combined'].tolist()
+    embeddings = [get_embedding(doc, engine = "text-embedding-3-small") for doc in documents]
+    embedding_dim = len(embeddings[0])
+    embeddings_np = np.array(embeddings).astype('float32')
+    index = faiss.IndexFlatL2(embedding_dim)
+    index.add(embeddings_np)    
     
     def initialize_conversation(prompt):
      if 'messagess' not in st.session_state:
