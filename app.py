@@ -250,7 +250,7 @@ def generate_explanation(data, forecast):
     _, indices = index.search(query_embedding_np, 2)
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
-
+    structured_prompt = f"Context:\n{context}\n\nQuery:\n{user_message}\n\nResponse:"
     prompt = f"""
     {System_Prompt_Forecast}
     1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns: {historical_data_str}. 
@@ -263,14 +263,12 @@ def generate_explanation(data, forecast):
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         temperature= 0.3,
-        max_tokens=1000,
         messages=[
-            {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics and insights based on the full dataset."},
             {"role": "user", "content": prompt}
         ]
     )
     
-    return response.choices[0].message['content'].strip()
+    return response['choices'][0]['message']['content']
 
 if options == "Home":
     st.title("Welcome to SalesX AI!🏆")
@@ -334,33 +332,33 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            #st.header("Summary of Sales Analyses")
-            #explanation = generate_explanation(data, forecast)
-            #st.write("Explanation:", explanation)
+            st.header("Summary of Sales Analyses")
+            explanation = generate_explanation(data, forecast)
+            st.write("Explanation:", explanation)
             
             #ChatBot 
-    def initialize_conversation(prompt):
-     if 'message' not in st.session_state:
-         st.session_state.message = []
-         st.session_state.message.append({"role": "system", "content": System_Prompt})
+   # def initialize_conversation(prompt):
+   #  if 'message' not in st.session_state:
+   #      st.session_state.message = []
+   #      st.session_state.message.append({"role": "system", "content": System_Prompt})
         
-    initialize_conversation(System_Prompt)
+    #initialize_conversation(System_Prompt)
     
-    for messages in st.session_state.message:
-      if messages ['role'] == 'system' : continue 
-      else :
-        with st.chat_messages(messages["role"]):
-             st.markdown(messages["content"])
+   # for messages in st.session_state.message:
+   #   if messages ['role'] == 'system' : continue 
+   #   else :
+   #     with st.chat_messages(messages["role"]):
+   #          st.markdown(messages["content"])
     
-    if user_message := st.chat_input("Ask questions!"):
-        with st.chat_message("user"):
-            st.markdown(user_message)
-        st.session_state.message.append({"role": "user", "content": user_message})
-        chat = openai.ChatCompletion.create(
-            model="gpt-4o-mini",
-            messages=st.session_state.message,
-        ) 
-        response = chat.choices[0].message.content
-        with st.chat_message("assistant"):
-            st.markdown(response)
-        st.session_state.message.append({"role": "assistant", "content": response})
+   # if user_message := st.chat_input("Ask questions!"):
+   #     with st.chat_message("user"):
+   #         st.markdown(user_message)
+   #     st.session_state.message.append({"role": "user", "content": user_message})
+   #     chat = openai.ChatCompletion.create(
+   #         model="gpt-4o-mini",
+   #         messages=st.session_state.message,
+   #     ) 
+   #     response = chat.choices[0].message.content
+   #     with st.chat_message("assistant"):
+   #         st.markdown(response)
+   #     st.session_state.message.append({"role": "assistant", "content": response})
