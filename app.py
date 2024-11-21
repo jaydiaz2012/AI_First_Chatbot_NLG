@@ -185,7 +185,7 @@ Provide a statistical analysis, including exact counts and percentages where app
 
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini", 
-            message=[
+            messages=[
                 {"role": "user", "content": prompt}
             ],
             temperature=0.3,
@@ -204,8 +204,8 @@ def forecast_sales(data, sales_column):
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.1,
-        message=[
+        temperature= 0.3,
+        messages=[
             {"role": "system", "content": System_Prompt},
             {"role": "user", "content": prompt}
         ]
