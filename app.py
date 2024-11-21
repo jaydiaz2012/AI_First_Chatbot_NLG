@@ -246,7 +246,7 @@ def generate_explanation(data, forecast):
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
     
-    prompt = f"""{System_Prompt}
+    prompt = f"""{System_Prompt_Forecast}
     1. Analyze the provided data and identify trends, anomalies, and patterns: {historical_data_str}
 
     2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {forecast_str}
@@ -262,7 +262,7 @@ def generate_explanation(data, forecast):
         frequency_penalty=0,
         presence_penalty=0,
         messages=[
-            {"role": "system", "content": System_Prompt},
+            {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
         ]
     )
