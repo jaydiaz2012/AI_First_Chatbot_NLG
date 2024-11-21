@@ -153,8 +153,8 @@ with st.sidebar:
     )
     st.image('images/sales_chart.jpg')
 
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
+if 'message' not in st.session_state:
+    st.session_state.message = []
 
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = None
@@ -324,48 +324,30 @@ elif options == "SalesX AI":
             st.header("Summary of Analyses")
             explanation = generate_explanation(data, forecast)
             st.write("Explanation:", explanation)
-
-#ChatBot 
-elif options == "Talk to SalesX":
-    st.title("📢 Talk to SalesX")
-    dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
-    dataframed['combined'] = dataframed.apply(lambda row : ' '.join(row.values.astype(str)), axis = 1)
-    documents = dataframed['combined'].tolist()
-    embeddings = [get_embedding(doc, engine = "text-embedding-3-small") for doc in documents]
-    embedding_dim = len(embeddings[0])
-    embeddings_np = np.array(embeddings).astype('float32')
-    index = faiss.IndexFlatL2(embedding_dim)
-    index.add(embeddings_np)    
-    
+            
+            #ChatBot 
     def initialize_conversation(prompt):
-     if 'messagess' not in st.session_state:
-         st.session_state.messagess = []
-         st.session_state.messagess.append({"role": "system", "content": System_Prompt})
-         chat =  openai.ChatCompletion.create(model = "gpt-4o-mini", messages = st.session_state.messagess, temperature=0.5, max_tokens=1500, top_p=1, frequency_penalty=0, presence_penalty=0)
-         response = chat.choices[0].message.content
-         st.session_state.messagess.append({"role": "assistant", "content": response})
+     if 'message' not in st.session_state:
+         st.session_state.message = []
+         st.session_state.message.append({"role": "system", "content": System_Prompt_Forecast})
+        
+    initialize_conversation(System_Prompt_Forecast)
     
-    initialize_conversation(System_Prompt)
-    
-    for messages in st.session_state.messagess :
-      if messages['role'] == 'system' : continue 
+    for messages in st.session_state.message:
+      if messages ['role'] == 'system' : continue 
       else :
-        with st.chat_message(messages["role"]):
+        with st.chat_messages(messages["role"]):
              st.markdown(messages["content"])
     
     if user_message := st.chat_input("Ask questions!"):
-     with st.chat_message("user"):
-          st.markdown(user_message)
-     query_embedding = get_embedding(user_message, engine='text-embedding-3-small')
-     query_embedding_np = np.array([query_embedding]).astype('float32')
-     _, indices = index.search(query_embedding_np, 2)
-     retrieved_docs = [documents[i] for i in indices[0]]
-     context = ' '.join(retrieved_docs)
-     structured_prompt = f"Context:\n{context}\n\nQuery:\n{user_message}\n\nResponse:"
-     chat =  openai.ChatCompletion.create(model = "gpt-4o-mini", messages = st.session_state.messagess + [{"role": "user", "content": structured_prompt}], temperature=0.5, max_tokens=1500, top_p=1, frequency_penalty=0, presence_penalty=0)
-     st.session_state.messagess.append({"role": "user", "content": user_message})
-     response = chat.choices[0].message.content
-     with st.chat_message("assistant"):
-          st.markdown(response)
-     st.session_state.messagess.append({"role": "assistant", "content": response})
-    
+        with st.chat_message("user"):
+            st.markdown(user_message)
+        st.session_state.messagess.append({"role": "user", "content": user_message})
+        chat = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=st.session_state.message,
+        ) 
+        response = chat.choices[0].message.content
+        with st.chat_message("assistant"):
+            st.markdown(response)
+        st.session_state.messagess.append({"role": "assistant", "content": response})
