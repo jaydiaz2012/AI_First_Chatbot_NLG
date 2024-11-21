@@ -227,7 +227,9 @@ def forecast_sales(data, sales_column):
 
     return forecasted_data
 
-def generate_explanation(prompt, forecast):
+def generate_explanation(data, forecast):
+    historical_data_str = data.to_string(index=False)  
+    forecast_str = ', '.join(map(str, forecast))  
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
     dataframed['combined'] = dataframed.apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
@@ -240,7 +242,7 @@ def generate_explanation(prompt, forecast):
     index = faiss.IndexFlatL2(embedding_dim)
     index.add(embeddings_np)
 
-    query_embedding = get_embedding(forecast, engine='text-embedding-3-small')
+    query_embedding = get_embedding(forecast_str, engine='text-embedding-3-small')
     query_embedding_np = np.array([query_embedding]).astype('float32')
 
     _, indices = index.search(query_embedding_np, 2)
@@ -250,20 +252,17 @@ def generate_explanation(prompt, forecast):
     prompt = f"""
     {System_Prompt_Forecast}
     
-    1. Analyze the provided data and identify trends, anomalies, and patterns.
+    1. Analyze the provided data and identify trends, anomalies, and patterns. {historical_data_str}
 
-    2. Based on the provided data, describe the forecasted sales values for the next 12 periods.
+    2. Based on the provided data, describe the forecasted sales values for the next 12 periods. {forecast_str}
 
-    3. Use context to enhance the insights and analysis.
+    3. Use context to enhance the insights and analysis. {context}
     """
 
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         temperature= 0.7,
         max_tokens=500,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0,
         messages=[
             {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
@@ -339,5 +338,5 @@ elif options == "SalesX AI":
 
             #Analysis with RAG
             st.header("Summary of Sales Analyses")
-            explanation = generate_explanation(prompt, forecast)
+            explanation = generate_explanation(data, forecast)
             st.write("Explanation:", explanation)
