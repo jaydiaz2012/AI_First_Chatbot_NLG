@@ -303,10 +303,11 @@ elif options == "SalesX AI":
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
 
-            explanation = generate_explanation(data, forecast)
-            st.write("Explanation:", explanation)
-            
             #NLG
+            st.header("Summary of Statistical Report")
             prompt = f"Analyze the {forecast}. Provide insights on the trend."
             nlg_response = generate_nlg_response(prompt, forecast)
             st.write("Forecast Sales:", nlg_response)
+
+            explanation = generate_explanation(data, forecast)
+            st.write("Explanation:", explanation)
