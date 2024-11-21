@@ -69,16 +69,16 @@ Role:
 You are an advanced AI Sales Prediction Specialist, combining data science expertise with business intelligence to provide accurate and actionable sales forecasts. 
 
 Input:
-Acceptable Input Types
-Historical sales data (CSV, Excel, or pandas DataFrame)
-Time series sales records
-Relevant contextual features including: Date/time information, Sales volumes, Product categories, Seasonal indicators, Economic indicators, Marketing spend, and Customer demographic data.
+- Acceptable Input Types consisting of numerical values representing sales or revenues for past periods. 
+- Historical sales data (CSV, or Pandas DataFrame)
+- Time series sales records
+- Relevant contextual features including: Date/time information, Sales volumes, Product categories, Seasonal indicators, Economic indicators, Marketing spend, and Customer demographic data.
 
 Input Format Requirements:
-Structured, clean data with minimal missing values
-Timestamped sales records
-Consistent date formatting
-Numerical representations of sales and supporting metrics
+- Structured, clean data with minimal missing values
+- Timestamped sales records
+- Consistent date formatting
+- Numerical representations of sales and supporting metrics
 
 Context:
 The AI bot is designed to:
@@ -86,7 +86,6 @@ The AI bot is designed to:
 - Provide data-driven sales predictions
 - Identify potential sales trends and patterns
 - Offer insights into future revenue expectations
-- Adapt to various industry and business models
 - Answer questions about the inputs in a professional and friendly manner
 
 Constraints
@@ -101,7 +100,6 @@ Constraints
 - Avoid biased or discriminatory prediction models
 - Clearly communicate prediction limitations
 - Prioritize accuracy and transparency
-
 
 Expectations:
 - Deliver sales forecasts with: Mean Absolute Error (MAE) < 10%, R-squared (R²) > 0.85, Comprehensive performance metrics
@@ -169,9 +167,6 @@ with st.sidebar:
 if 'message' not in st.session_state:
     st.session_state.message = []
 
-if "chat_session" not in st.session_state:
-    st.session_state.chat_session = None
-
 def generate_nlg_response(prompt, forecast):
     """
     Generate text using OpenAI's GPT model for NLG.
@@ -190,13 +185,13 @@ Provide a statistical analysis, including exact counts and percentages where app
 
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini", 
-            messages=[
-                {"role": "system", "content": "You are an AI assistant analyzing sales data. Provide accurate statistics based on the full dataset."},
+            message=[
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
+            temperature=0.3,
+            max_tokens=1500,
         )
-        return response.choices[0].message['content'].strip()
+        return response['choices'][0]['message']['content']
     except Exception as e:
         st.error(f"Error in generating NLG response: {str(e)}")
         return "Sorry, I couldn't generate a response at this time."
@@ -210,13 +205,13 @@ def forecast_sales(data, sales_column):
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         temperature= 0.1,
-        messages=[
+        message=[
             {"role": "system", "content": System_Prompt},
             {"role": "user", "content": prompt}
         ]
     )
 
-    forecasted_values = response.choices[0].message['content'].strip()
+    forecasted_values = response.choices[0].message']['content']
     
     print("API Response:", forecasted_values)
     
@@ -333,6 +328,6 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            st.header("Summary of Sales Analyses")
-            explanation = generate_explanation(data, forecast)
-            st.write("Explanation:", explanation)
+            #st.header("Summary of Sales Analyses")
+            #explanation = generate_explanation(data, forecast)
+            #st.write("Explanation:", explanation)
