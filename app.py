@@ -342,7 +342,7 @@ elif options == "SalesX AI":
     if user_message := st.chat_input("Ask questions!"):
         with st.chat_message("user"):
             st.markdown(user_message)
-        st.session_state.messagess.append({"role": "user", "content": user_message})
+        st.session_state.message.append({"role": "user", "content": user_message})
         chat = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=st.session_state.message,
