@@ -325,7 +325,7 @@ elif options == "SalesX AI":
             st.header("Forecast Sales Chart")
             st.line_chart(forecast)
             st.bar_chart(forecast)
-            st.bar_chart(forecast)
+            st.scatter_chart(forecast)
 
             #NLG
             #st.header("Summary of Statistical Report")
