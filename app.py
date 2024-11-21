@@ -249,13 +249,13 @@ def generate_explanation(data, forecast):
     prompt = f"""
     {System_Prompt_Forecast}
     
-    1. Analyze the provided data and identify trends, anomalies, and patterns. 
+    1. Analyze the provided data and identify trends, anomalies, and patterns: {historical_data_str}
 
-    2. Based on the provided data, describe the forecasted sales values for the next 12 periods.
+    2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {forecast_str}
 
-    3. Use context to enhance the insights and analysis.
+    3. Use context to enhance the insights and analysis: {contest}
     """
-    
+
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         temperature= 0.7,
@@ -264,7 +264,6 @@ def generate_explanation(data, forecast):
         frequency_penalty=0,
         presence_penalty=0,
         messages=[
-            {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
         ]
     )
