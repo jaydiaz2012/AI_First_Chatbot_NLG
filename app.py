@@ -225,8 +225,8 @@ def forecast_sales(data, sales_column):
     return forecasted_data
 
 def generate_explanation(data, forecast):
-    #historical_data_str = data.to_string(index=False)
-    #forecast_str = ', '.join(map(str, forecast)) 
+    historical_data_str = data.to_string(index=False)
+    forecast_str = ', '.join(map(str, forecast)) 
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
     dataframed['combined'] = dataframed.apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
@@ -239,7 +239,7 @@ def generate_explanation(data, forecast):
     index = faiss.IndexFlatL2(embedding_dim)
     index.add(embeddings_np)
 
-    query_embedding = get_embedding(forecast, engine='text-embedding-3-small')
+    query_embedding = get_embedding(forecast_str, engine='text-embedding-3-small')
     query_embedding_np = np.array([query_embedding]).astype('float32')
 
     _, indices = index.search(query_embedding_np, 2)
@@ -249,16 +249,16 @@ def generate_explanation(data, forecast):
     prompt = f"""
     {System_Prompt_Forecast}
     
-    1. Analyze the provided data and identify trends, anomalies, and patterns. {Input}
+    1. Analyze the provided data and identify trends, anomalies, and patterns. 
 
-    2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {Expectations}
+    2. Based on the provided data, describe the forecasted sales values for the next 12 periods.
 
-    3. Use the following context to enhance the insights and analysis. {Context}
+    3. Use context to enhance the insights and analysis.
     """
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.3,
+        temperature= 0.7,
         max_tokens=500,
         top_p=1,
         frequency_penalty=0,
@@ -270,7 +270,6 @@ def generate_explanation(data, forecast):
     )
     
     return response['choices'][0]['message']['content']
-    st.session_state.messages.append({"role": "assistant", "content": response})
 
 if options == "Home":
     st.title("Welcome to SalesX AI!🏆")
