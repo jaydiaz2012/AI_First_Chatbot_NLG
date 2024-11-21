@@ -225,8 +225,8 @@ def forecast_sales(data, sales_column):
     return forecasted_data
 
 def generate_explanation(data, forecast):
-    #historical_data_str = data.to_string(index=False)
-    #forecast_str = ', '.join(map(str, forecast)) 
+    historical_data_str = data.to_string(index=False)
+    forecast_str = ', '.join(map(str, forecast)) 
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
     dataframed['combined'] = dataframed.apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
@@ -245,7 +245,7 @@ def generate_explanation(data, forecast):
     _, indices = index.search(query_embedding_np, 2)
     retrieved_docs = [documents[i] for i in indices[0]]
     context = ' '.join(retrieved_docs)
-    
+    structured_prompt = f"Context:\n{context}\n\nQuery:\n{forecast_str}\n\nResponse:"
     prompt = f"""
     {System_Prompt_Forecast}
     1. Based on the given sales data, craft a concise and informative response that communicates the insights effectively including key trends and patterns. 
@@ -257,14 +257,19 @@ def generate_explanation(data, forecast):
 
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        temperature= 0.7,
-        max_tokens=1500,
+        temperature= 0.3,
+        max_tokens=500,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0)
         messages=[
+            {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
         ]
     )
     
     return response['choices'][0]['message']['content']
+    st.session_state.messages.append({"role": "assistant", "content": response})
 
 if options == "Home":
     st.title("Welcome to SalesX AI!🏆")
