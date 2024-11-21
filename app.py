@@ -207,7 +207,6 @@ def forecast_sales(data, sales_column):
         model="gpt-4o-mini",
         temperature= 0.3,
         messages=[
-            {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
         ]
     )
