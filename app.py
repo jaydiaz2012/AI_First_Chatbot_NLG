@@ -149,6 +149,7 @@ with st.sidebar:
     st.write("Use only CSV files when uploading. You can enter manually the data.")
     st.write("If using CSV, select the column with the header Sales or Revenue or the like for analysis.")
     st.write("After generating, the AI Bot will provide a table of forecasted sales for the next 12 months starting at 0, a line chart, and two summaries: data statistical summary and data analysis summary.")
+    st.write("Ensure your sales data is clean, clearly identified, and pre-processed. No missing/NAN values.") 
 
     options = option_menu(
         "Content",
@@ -206,7 +207,7 @@ def forecast_sales(data, sales_column):
         model="gpt-4o-mini",
         temperature= 0.3,
         messages=[
-            {"role": "system", "content": System_Prompt},
+            {"role": "system", "content": System_Prompt_Forecast},
             {"role": "user", "content": prompt}
         ]
     )
@@ -225,7 +226,7 @@ def forecast_sales(data, sales_column):
     return forecasted_data
 
 def generate_explanation(data, forecast):
-    historical_data_str = data.to_string(index=False)
+    historical_data_str = data[forecast].to_list()
     forecast_str = ', '.join(map(str, forecast)) 
 
     dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
@@ -249,11 +250,11 @@ def generate_explanation(data, forecast):
     prompt = f"""
     {System_Prompt_Forecast}
     
-    1. Analyze the provided data and identify trends, anomalies, and patterns: {historical_data_str}
+    1. Analyze the provided data and identify trends, anomalies, and patterns.
 
-    2. Based on the provided data, describe the forecasted sales values for the next 12 periods: {forecast_str}
+    2. Based on the provided data, describe the forecasted sales values for the next 12 periods.
 
-    3. Use context to enhance the insights and analysis: {context}
+    3. Use context to enhance the insights and analysis.
     """
 
     response = openai.ChatCompletion.create(
@@ -335,6 +336,6 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            #st.header("Summary of Sales Analyses")
-            #explanation = generate_explanation(data, forecast)
-            #st.write("Explanation:", explanation)
+            st.header("Summary of Sales Analyses")
+            explanation = generate_explanation(data, forecast)
+            st.write("Explanation:", explanation)
