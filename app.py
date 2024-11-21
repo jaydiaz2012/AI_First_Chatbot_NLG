@@ -327,20 +327,12 @@ elif options == "SalesX AI":
 
 #ChatBot 
 elif options == "Talk to SalesX":
-    st.markdown('<h1 class="outlined-text">Talk to SalesX</h1>', unsafe_allow_html=True)
-    dataframed = pd.read_csv('https://raw.githubusercontent.com/jaydiaz2012/AI_First_Chatbot_Project/refs/heads/main/Restaurant_revenue_final.csv')
-    dataframed['combined'] = dataframed.apply(lambda row : ' '.join(row.values.astype(str)), axis = 1)
-    documents = dataframed['combined'].tolist()
-    embeddings = [get_embedding(doc, engine = "text-embedding-3-small") for doc in documents]
-    embedding_dim = len(embeddings[0])
-    embeddings_np = np.array(embeddings).astype('float32')
-    index = faiss.IndexFlatL2(embedding_dim)
-    index.add(embeddings_np)    
+    st.title("📢 Talk to SalesX")
     
     def initialize_conversation(prompt):
      if 'messagess' not in st.session_state:
          st.session_state.messagess = []
-         st.session_state.messagess.append({"role": "system", "content": System_Prompt})
+         st.session_state.messagess.append({"role": "system", "content": System_Prompt_Forecast})
          chat =  openai.ChatCompletion.create(model = "gpt-4o-mini", messages = st.session_state.messagess, temperature=0.5, max_tokens=1500, top_p=1, frequency_penalty=0, presence_penalty=0)
          response = chat.choices[0].message.content
          st.session_state.messagess.append({"role": "assistant", "content": response})
