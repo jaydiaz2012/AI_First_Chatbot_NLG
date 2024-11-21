@@ -338,6 +338,6 @@ elif options == "SalesX AI":
             st.write("Forecast Sales:", nlg_response)
 
             #Analysis with RAG
-            #st.header("Summary of Sales Analyses")
-            #explanation = generate_explanation(prompt, forecast)
-            #st.write("Explanation:", explanation)
+            st.header("Summary of Sales Analyses")
+            explanation = generate_explanation(prompt, forecast)
+            st.write("Explanation:", explanation)
