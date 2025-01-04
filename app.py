@@ -218,9 +218,6 @@ def forecast_sales(data, sales_column):
     return forecasted_data
 
 def generate_explanation(data, forecast):
-    if forecast is None:
-        return "Forecast data is unavailable."
-        
     historical_data_str = data.to_string(index=False)  
     forecast_str = ', '.join(map(str, forecast))  
 
