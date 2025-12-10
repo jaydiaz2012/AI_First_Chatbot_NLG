@@ -7,6 +7,7 @@ plotly
 openpyxl
 langchain-core
 langchain==0.3.7
+langchain-openai==0.3.0
 langchain_community
 scipy
 scikit-learn
